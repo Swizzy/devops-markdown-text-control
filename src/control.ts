@@ -3,6 +3,7 @@
  */
 
 import * as WitService from "TFS/WorkItemTracking/Services";
+import { WorkItemOptions } from "TFS/WorkItemTracking/UIContracts"
 import { View } from "./view";
 import { ErrorView } from "./errorView";
 import * as Q from "q";
@@ -12,6 +13,7 @@ export class Controller {
 
     private _inputs: IDictionaryStringTo<string>;
     private _view: View;
+    private _options:WorkItemOptions;
 
     constructor() {
         this._initialize();
@@ -20,22 +22,19 @@ export class Controller {
     private async _initialize(): Promise<void> {
         this._inputs = VSS.getConfiguration().witInputs;
         this._fieldName = this._inputs["FieldName"];
-        var markdown = await this.getFieldValue(this._fieldName);
+        var markdown:string = await this.getFieldValue(this._fieldName);
 
         WitService.WorkItemFormService.getService().then(
             (service) => {
                 Q.spread(
-                    [service.getFieldValue(this._fieldName)],
+                    [service.getFieldValue(this._fieldName, this._options)],
                     (currentValue: string) => {
                         this._view = new View();
-                        
-                        //Force update markdown after view is created.
                         this._view.update(markdown);
 
-                    }, this._handleError
-                ).then(null, this._handleError);
-            },
-            this._handleError);
+                    }, (reason:string) => this._handleError("Q.spread inner error: " + reason)
+                );
+            }, (reason:string) => this._handleError("Q.spread outer error: " + reason));
         
     }
 
@@ -52,16 +51,16 @@ export class Controller {
             const field = fields.filter(x => x.name.toLowerCase() == fieldName)[0];
 
             if (field) {
-                return await formService.getFieldValue(field.referenceName).toString();
+                return await formService.getFieldValue(field.referenceName, this._options).toString();
             } else {
-                return null;
+                return "";
             }
         } catch {
-            return null;
+            return "";
         }
     }
 
-    private _handleError(error: string): void {
+    private _handleError(error: string): void { 
         new ErrorView(error);
     }
 

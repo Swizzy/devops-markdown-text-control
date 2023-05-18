@@ -33,5 +33,6 @@ export class ErrorView {
         container.append(help);
 
         $("body").empty().append(container);
+        VSS.resize();
     }
 }

@@ -1,11 +1,11 @@
 import * as MarkdownIt from "markdown-it";
 
 export class View {
-    private _md: MarkdownIt;
+    private _md;
     private _markdown: JQuery<HTMLElement>;
 
     constructor() {
-        this._md = new MarkdownIt();
+        this._md = new MarkdownIt({ html: true, breaks: true });
         
         $(".container").remove();
 
@@ -25,17 +25,24 @@ export class View {
         control.append(this._markdown);
         container.append(control);
         $("body").append(container);
-
-        VSS.resize(container.width(), container.height());
+        VSS.resize();
     }
 
 
     public update(markdown: string) {
-        this._md.render(markdown).then(x => {             
-            var formatted = $(x);
-            $('a', formatted).attr('target', '_blank');
+        console.log('update: ' + markdown);
+        var render = this._md.render(markdown);
 
-            this._markdown.html(formatted.html());
-        });
+        console.log('update: ' + markdown);
+        var formatted = $(render);
+        $('a', formatted).attr('target', '_blank');
+
+        var html = formatted.html();
+
+        console.log('html: ' + html);
+        
+        this._markdown.html(html);
+
+        VSS.resize();
     }
 }
