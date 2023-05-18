@@ -1,24 +1,12 @@
-import { Markdown } from './markdown';
-import { WorkItemFormService } from "TFS/WorkItemTracking/Services";
-import { Model } from "./model";
 import * as MarkdownIt from "markdown-it";
-import { WorkItemField } from 'TFS/WorkItemTracking/Contracts';
 
 export class View {
-    private _md: Markdown;
-
-    private currentValue = "";
-
-    private _combo: JQuery<HTMLElement>;
+    private _md: MarkdownIt;
     private _markdown: JQuery<HTMLElement>;
 
-    constructor(private model: Model, private script: string, private onInputChanged: Function) {
-        this._md = new Markdown(script);
-
-        this._init();
-    }
-
-    private _init(): void {
+    constructor() {
+        this._md = new MarkdownIt();
+        
         $(".container").remove();
 
         var container = $("<div />");
@@ -29,8 +17,6 @@ export class View {
 
         var workItemControl = $('<div />');
         workItemControl.addClass('work-item-control');
-
-        this.currentValue = String(this.model.getCurrentValue());
 
         this._markdown = $('<div />');
         this._markdown.addClass('markdown-control');
@@ -43,27 +29,9 @@ export class View {
         VSS.resize(container.width(), container.height());
     }
 
-    private _inputChanged(): void {
-        let newValue = $("input").val();
-        if (this.onInputChanged) {
-            this.onInputChanged(newValue);
-        }
-    }
 
-    private _gotFocus(): void {
-        this._combo.addClass('focus');
-    }
-
-    private _lostFocus(): void {
-        this._combo.removeClass('focus');
-    }
-
-    public update(value: string, markdown: string) {
-        this.currentValue = String(value);
-        $("input").val(this.currentValue);
-
-        this._md.markdown(markdown).then(x => { 
-            
+    public update(markdown: string) {
+        this._md.render(markdown).then(x => {             
             var formatted = $(x);
             $('a', formatted).attr('target', '_blank');
 
