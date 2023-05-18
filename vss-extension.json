@@ -52,7 +52,7 @@
                         "name": "Field",
                         "type": "WorkItemField",
                         "properties": {
-                            "workItemFieldTypes": ["String"]
+                            "workItemFieldTypes": ["HTML"]
                         },
                         "validation": {
                             "dataType": "String",
