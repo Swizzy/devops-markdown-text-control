@@ -6,7 +6,7 @@ export class View {
 
     constructor() {
         this._md = new MarkdownIt({ html: true, breaks: true });
-        
+
         $(".container").remove();
 
         var container = $("<div />");
@@ -14,14 +14,9 @@ export class View {
 
         var control = $('<div />');
         control.addClass('control');
-
-        var workItemControl = $('<div />');
-        workItemControl.addClass('work-item-control');
-
         this._markdown = $('<div />');
         this._markdown.addClass('markdown-control');
 
-        control.append(workItemControl);
         control.append(this._markdown);
         container.append(control);
         $("body").append(container);
@@ -31,17 +26,14 @@ export class View {
 
     public update(markdown: string) {
         console.log('update: ' + markdown);
+        markdown = $("<div/>").html(markdown.replaceAll("<br>", "\\n").replaceAll("&nbsp;", " ")).text().replaceAll("\\n", "\n");
+        console.log('stripped: ' + markdown);
+
         var render = this._md.render(markdown);
 
-        console.log('update: ' + markdown);
-        var formatted = $(render);
-        $('a', formatted).attr('target', '_blank');
-
-        var html = formatted.html();
-
-        console.log('html: ' + html);
+        console.log('html: ' + render);
         
-        this._markdown.html(html);
+        this._markdown.html(render);
 
         VSS.resize();
     }
