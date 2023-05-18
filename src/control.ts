@@ -52,7 +52,7 @@ export class Controller {
         fieldName = fieldName.toLowerCase()
 
         if (fieldName == "id") {
-            return formService.getId();
+            return (await formService.getId()).toString();
         }
 
         try {
@@ -60,7 +60,7 @@ export class Controller {
             const field = fields.filter(x => x.name.toLowerCase() == fieldName)[0];
 
             if (field) {
-                return await formService.getFieldValue(field.referenceName);
+                return await formService.getFieldValue(field.referenceName).toString();
             } else {
                 return null;
             }
