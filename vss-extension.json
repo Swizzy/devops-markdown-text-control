@@ -1,11 +1,11 @@
 {
     "manifestVersion": 1,
     "id": "devops-markdown-text-control",
-    "publisher": "Ricardo-Zambon",
+    "publisher": "Causeywestling",
     "version": "1.0.0",
     "name": "Markdown Text Control",
-    "description": "Extension to show text field control and markdown in same row",
-    "public": true,
+    "description": "Extension to show markdown for a textfield",
+    "public": false,
     "categories": [ "Azure Boards" ],
     "scopes": ["vso.work", "vso.work_write"],
     "icons": {
@@ -13,16 +13,16 @@
     },
     "links": {
         "learn": {
-            "uri": "https://github.com/RicardoZambon/devops-markdown-text-control/blob/master/README.md"
+            "uri": "https://github.com/Swizzy/devops-markdown-text-control/blob/master/README.md"
         },
         "support": {
-            "uri": "https://github.com/RicardoZambon/devops-markdown-text-control"
+            "uri": "https://github.com/Swizzy/devops-markdown-text-control"
         },
         "repository": {
-            "uri": "https://github.com/RicardoZambon/devops-markdown-text-control"
+            "uri": "https://github.com/Swizzy/devops-markdown-text-control"
         },
         "issues": {
-            "uri": "https://github.com/RicardoZambon/devops-markdown-text-control/issues"
+            "uri": "https://github.com/Swizzy/devops-markdown-text-control/issues"
         }
     },
     "targets": [
@@ -45,7 +45,7 @@
             "properties": {
                 "name": "Markdown Text Control",
                 "uri": "static/index.html",
-                "height": 50,
+                "height": 150,
                 "inputs": [
                     {
                         "id": "FieldName",
@@ -58,26 +58,7 @@
                             "dataType": "String",
                             "isRequired": true
                         }
-                    },
-                    {
-                        "id": "Markdown",
-                        "name": "Markdown",
-                        "inputMode": "TextArea",
-                        "validation": {
-                            "dataType": "String",
-                            "isRequired": true
-                        }
-                    },
-                    {
-                        "id": "Script",
-                        "name": "Value Converter Script",
-                        "inputMode": "TextArea",
-                        "validation": {
-                            "dataType": "String",
-                            "isRequired": false
-                        }
                     }
-
                 ]
             }
         }
