@@ -7,10 +7,10 @@ export class View {
     constructor() {
         this._md = new MarkdownIt({ html: true, breaks: true });
 
-        $(".container").remove();
+        $(".mdcontainer").remove();
 
         var container = $("<div />");
-        container.addClass("container");
+        container.addClass("mdcontainer");
 
         var control = $('<div />');
         control.addClass('control');
@@ -31,7 +31,9 @@ export class View {
 
         var render = this._md.render(markdown);
 
-        console.log('html: ' + render);
+        render = render.replaceAll("<table", "<table class=\"table table-striped table-hover table-sm table-responsive table-bordered\"")
+
+        console.log('html: ' + render);       
         
         this._markdown.html(render);
 
