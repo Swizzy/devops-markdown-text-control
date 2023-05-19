@@ -1,26 +1,28 @@
+import * as WitService from "TFS/WorkItemTracking/Services";
 import * as MarkdownIt from "markdown-it";
+import { ErrorView } from "./errorView";
 
 export class View {
     private _md;
     private _markdown: JQuery<HTMLElement>;
     private _input: JQuery<HTMLElement>;
-    private static _instance: View;
-
-    constructor() {
-        View._instance = this;
+    private _fieldName: string;
+    
+    constructor(fieldName:string) {
+        this._fieldName = fieldName;
         this._md = new MarkdownIt({ html: true, breaks: true });
 
         $(".mdcontainer").remove();
 
-        var container = $("<div />");
+        const container = $("<div />");
         container.addClass("mdcontainer");
 
         this._input = $('<textarea rows="10" />');
-        this._input.on('input', this._oninput)
+        this._input.on('input', this._oninput.bind(this));
         
         container.append(this._input);
 
-        var control = $('<div />');
+        const control = $('<div />');
         control.addClass('control');
 
         this._markdown = $('<div />');
@@ -33,7 +35,16 @@ export class View {
     }
 
     public _oninput(e:Event) {
-        View._instance._update(View._instance._input.val().toString());
+        this._update(this._input.val().toString());
+
+        // Update the field value in DevOps
+        WitService.WorkItemFormService.getService().then((service) => {
+            service.setFieldValue(this._fieldName, this._input.val());
+        }, (reason:string) => this._handleError("setFieldValue error: " + reason));
+    }
+
+    private _handleError(error: string): void { 
+        new ErrorView(error);
     }
 
     public update(markdown: string) { 
@@ -42,16 +53,11 @@ export class View {
     }
 
     private _update(markdown: string) {
-        console.log('update: ' + markdown);
-        markdown = $("<div/>").html(markdown.replaceAll("<br>", "\\n").replaceAll("&nbsp;", " ")).text().replaceAll("\\n", "\n");
-        console.log('stripped: ' + markdown);
+        let render = this._md.render(markdown);
 
-        var render = this._md.render(markdown);
+        // Change the table to have all the classes we want it to have
+        render = render.replaceAll("<table", "<table class=\"table table-striped table-hover table-sm table-responsive table-bordered\"");
 
-        render = render.replaceAll("<table", "<table class=\"table table-striped table-hover table-sm table-responsive table-bordered\"")
-
-        console.log('html: ' + render);       
-        
         this._markdown.html(render);
 
         VSS.resize();

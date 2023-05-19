@@ -23,7 +23,7 @@ export class Controller {
                 Q.spread(
                     [service.getFieldValue(this._fieldName, this._options)],
                     (currentValue: string) => {
-                        this._view = new View();
+                        this._view = new View(this.getFieldName());
                         this._view.update(currentValue);
 
                     }, (reason:string) => this._handleError("Q.spread inner error: " + reason)

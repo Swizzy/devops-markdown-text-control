@@ -9,7 +9,7 @@ var provider = () => {
             control = new Controller();
         },
         onFieldChanged: (fieldChangedArgs: IWorkItemFieldChangedArgs) => {
-            var changedValue = fieldChangedArgs.changedFields[control.getFieldName()];
+            const changedValue = fieldChangedArgs.changedFields[control.getFieldName()];
             if (changedValue !== undefined) {
                 control.update(changedValue);
             }
