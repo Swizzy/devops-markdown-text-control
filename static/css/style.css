@@ -10,3 +10,12 @@
 .table {
     border: none;
 }
+
+textarea {
+    width: 100%;
+    color: var(--text-primary-color,rgba(0, 0, 0, .9)) !important;
+}
+
+pre, code {
+    color: var(--text-primary-color,rgba(0, 0, 0, .9)) !important;
+}
