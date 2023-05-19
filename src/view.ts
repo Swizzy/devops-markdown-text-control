@@ -18,8 +18,7 @@ export class View {
         const container = $("<div />");
         container.addClass("mdcontainer");
 
-        const input = $('<textarea rows="10" />');        
-        input.on('input', this._oninput.bind(this))
+        const input = $('<textarea rows="10" />');
         container.append(input);
 
         const control = $('<div />');
@@ -35,18 +34,19 @@ export class View {
         this._simplemde = new SimpleMDE({
             element: input[0],
             toolbar: ["bold", "italic", "strikethrough", "|", "heading", "heading-smaller", "heading-bigger", "|", "quote", "unordered-list", "ordered-list", "code", "clean-block", "|", "link", "image", "table", "horizontal-rule", "|", "guide"],
-            status: false,
-            forceSync: true
+            status: false
         });
+        this._simplemde.codemirror.on('change', this._oninput.bind(this));
         VSS.resize();
     }
 
     public _oninput(e:Event) {
-        this._update(this._simplemde.value().toString());
+        const val = this._simplemde.value().toString();
+        this._update(val);
 
         // Update the field value in DevOps
         WitService.WorkItemFormService.getService().then((service) => {
-            service.setFieldValue(this._fieldName, this._simplemde.value());
+            service.setFieldValue(this._fieldName, val);
         }, (reason:string) => this._handleError("setFieldValue error: " + reason));
     }
 
