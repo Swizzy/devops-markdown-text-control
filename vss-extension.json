@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "devops-markdown-text-control",
     "publisher": "Causeywestling",
-    "version": "1.0.48",
+    "version": "1.0.49",
     "name": "Markdown Text Control",
     "description": "Extension to show markdown for a textfield",
     "public": false,
