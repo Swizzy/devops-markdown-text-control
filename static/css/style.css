@@ -43,3 +43,15 @@ pre, code {
 .mdcontainer{
     padding-right: 1px;
 }
+
+.editor-toolbar a:hover {
+    color: #000!important;
+}
+
+.editor-toolbar, .editor-toolbar:hover{
+    opacity: 1!important;
+}
+
+hr {
+    border-top: 1px solid var(--text-disabled-color) !important;
+}
