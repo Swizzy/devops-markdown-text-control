@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "devops-markdown-text-control",
     "publisher": "Causeywestling",
-    "version": "1.0.30",
+    "version": "1.0.39",
     "name": "Markdown Text Control",
     "description": "Extension to show markdown for a textfield",
     "public": false,
@@ -78,6 +78,11 @@
         },
         {
             "path": "node_modules/markdown-it/dist",
+            "addressable": true,
+            "packagePath": "/"
+        },
+        {
+            "path": "node_modules/simplemde/debug",
             "addressable": true,
             "packagePath": "/"
         }

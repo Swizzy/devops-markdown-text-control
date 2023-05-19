@@ -1,12 +1,13 @@
 import * as WitService from "TFS/WorkItemTracking/Services";
 import * as MarkdownIt from "markdown-it";
 import { ErrorView } from "./errorView";
+import SimpleMDE = require("simplemde");
 
 export class View {
     private _md;
     private _markdown: JQuery<HTMLElement>;
-    private _input: JQuery<HTMLElement>;
     private _fieldName: string;
+    private _simplemde: SimpleMDE;
     
     constructor(fieldName:string) {
         this._fieldName = fieldName;
@@ -17,10 +18,9 @@ export class View {
         const container = $("<div />");
         container.addClass("mdcontainer");
 
-        this._input = $('<textarea rows="10" />');
-        this._input.on('input', this._oninput.bind(this));
-        
-        container.append(this._input);
+        const input = $('<textarea rows="10" />');        
+        input.on('input', this._oninput.bind(this))
+        container.append(input);
 
         const control = $('<div />');
         control.addClass('control');
@@ -31,15 +31,22 @@ export class View {
         control.append(this._markdown);
         container.append(control);
         $("body").append(container);
+
+        this._simplemde = new SimpleMDE({
+            element: input[0],
+            toolbar: ["bold", "italic", "strikethrough", "|", "heading", "heading-smaller", "heading-bigger", "|", "quote", "unordered-list", "ordered-list", "code", "clean-block", "|", "link", "image", "table", "horizontal-rule", "|", "guide"],
+            status: false,
+            forceSync: true
+        });
         VSS.resize();
     }
 
     public _oninput(e:Event) {
-        this._update(this._input.val().toString());
+        this._update(this._simplemde.value().toString());
 
         // Update the field value in DevOps
         WitService.WorkItemFormService.getService().then((service) => {
-            service.setFieldValue(this._fieldName, this._input.val());
+            service.setFieldValue(this._fieldName, this._simplemde.value());
         }, (reason:string) => this._handleError("setFieldValue error: " + reason));
     }
 
@@ -48,7 +55,7 @@ export class View {
     }
 
     public update(markdown: string) { 
-        this._input.val(markdown);
+        this._simplemde.value(markdown);
         this._update(markdown);
     }
 

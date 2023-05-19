@@ -15,7 +15,9 @@
   "dependencies": {
     "@types/jquery": "^3.5.0",
     "@types/q": "^1.5.4",
+    "@types/simplemde": "^1.11.8",
     "markdown-it": "^11.0.0",
+    "simplemde": "^1.11.2",
     "vss-web-extension-sdk": "^5.141.0"
   },
   "devDependencies": {
@@ -63,14 +65,14 @@
           ]
         }
       ],
-			[
-				"@semantic-release/git",
-				{
-					"assets": [
-						"vss-extension.json"
-					]
-				}
-			],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "vss-extension.json"
+          ]
+        }
+      ],
       [
         "@semantic-release/exec",
         {
