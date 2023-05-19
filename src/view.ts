@@ -4,8 +4,10 @@ export class View {
     private _md;
     private _markdown: JQuery<HTMLElement>;
     private _input: JQuery<HTMLElement>;
+    private static _instance: View;
 
     constructor() {
+        View._instance = this;
         this._md = new MarkdownIt({ html: true, breaks: true });
 
         $(".mdcontainer").remove();
@@ -31,7 +33,7 @@ export class View {
     }
 
     public _oninput(e:Event) {
-        this._update(this._input.val().toString());
+        View._instance._update(View._instance._input.val().toString());
     }
 
     public update(markdown: string) { 
