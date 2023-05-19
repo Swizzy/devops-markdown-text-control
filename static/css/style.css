@@ -29,13 +29,6 @@ pre, code {
     color: inherit !important;
 }
 
-.CodeMirror-vscrollbar,
-.CodeMirror-hscrollbar,
-.CodeMirror-scrollbar-filler,
-.CodeMirror-gutter-filler {
-    display: none !important;
-}
-
 .CodeMirror-cursor {
     border-left: 1px solid var(--text-primary-color,rgba(0, 0, 0, .9)) !important;
 }
