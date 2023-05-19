@@ -44,7 +44,7 @@ pre, code {
     padding-right: 1px;
 }
 
-.editor-toolbar a:hover {
+.editor-toolbar a:hover, .editor-toolbar a.active {
     color: #000!important;
 }
 
