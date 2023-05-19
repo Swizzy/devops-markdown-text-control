@@ -49,3 +49,7 @@ pre, code {
 hr {
     border-top: 1px solid var(--text-disabled-color) !important;
 }
+
+.CodeMirror-selectedtext{
+    background-color: #000 !important;
+}
