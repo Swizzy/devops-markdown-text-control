@@ -34,7 +34,8 @@ export class View {
         this._simplemde = new SimpleMDE({
             element: input[0],
             toolbar: ["bold", "italic", "strikethrough", "|", "heading", "heading-smaller", "heading-bigger", "|", "quote", "unordered-list", "ordered-list", "code", "clean-block", "|", "link", "image", "table", "horizontal-rule", "|", "guide"],
-            status: false
+            status: false,
+            spellChecker: false
         });
         this._simplemde.codemirror.on('change', this._oninput.bind(this));
         VSS.resize();
